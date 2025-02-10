@@ -38,7 +38,7 @@ directionalLight.shadow.camera.bottom = -2;
 directionalLight.shadow.camera.left = -2;
 directionalLight.shadow.camera.near = 1;
 directionalLight.shadow.camera.far = 6;
-directionalLight.shadow.radius = 10;
+// directionalLight.shadow.radius = 10;
 scene.add(directionalLight);
 
 const directionalLightCameraHelper = new THREE.CameraHelper(
@@ -222,19 +222,34 @@ directionalShadowFolder
   .name('Cast Shadows');
 directionalShadowFolder
   .add(directionalLight.shadow.mapSize, 'width', 256, 2048, 256)
-  .name('Map Width');
+  .name('Map Width')
+  .onChange(() => {
+    directionalLight.shadow.map.dispose();
+    directionalLight.shadow.map = null;
+  });
 directionalShadowFolder
   .add(directionalLight.shadow.mapSize, 'height', 256, 2048, 256)
-  .name('Map Height');
+  .name('Map Height')
+  .onChange(() => {
+    directionalLight.shadow.map.dispose();
+    directionalLight.shadow.map = null;
+  });
 directionalShadowFolder
   .add(directionalLight.shadow.camera, 'near', 0.1, 10)
-  .name('Camera Near');
+  .name('Camera Near')
+  .onChange((value) => {
+    directionalLight.shadow.camera.near = value;
+    directionalLight.shadow.camera.updateProjectionMatrix();
+    directionalLightCameraHelper.update();
+  });
 directionalShadowFolder
   .add(directionalLight.shadow.camera, 'far', 1, 20)
-  .name('Camera Far');
-directionalShadowFolder
-  .add(directionalLight.shadow, 'radius', 0, 20)
-  .name('Blur');
+  .name('Camera Far')
+  .onChange((value) => {
+    directionalLight.shadow.camera.far = value;
+    directionalLight.shadow.camera.updateProjectionMatrix();
+    directionalLightCameraHelper.update();
+  });
 directionalShadowFolder
   .add(directionalLightCameraHelper, 'visible')
   .name('Show Helper');
@@ -271,14 +286,35 @@ const spotShadowFolder = spotFolder.addFolder('Shadow Settings').close();
 spotShadowFolder.add(spotLight, 'castShadow').name('Cast Shadows');
 spotShadowFolder
   .add(spotLight.shadow.mapSize, 'width', 256, 2048, 256)
-  .name('Map Width');
+  .name('Map Width')
+  .onChange(() => {
+    spotLight.shadow.map.dispose();
+    spotLight.shadow.map = null;
+  });
 spotShadowFolder
   .add(spotLight.shadow.mapSize, 'height', 256, 2048, 256)
-  .name('Map Height');
+  .name('Map Height')
+  .onChange(() => {
+    spotLight.shadow.map.dispose();
+    spotLight.shadow.map = null;
+  });
 spotShadowFolder
   .add(spotLight.shadow.camera, 'near', 0.1, 10)
-  .name('Camera Near');
-spotShadowFolder.add(spotLight.shadow.camera, 'far', 1, 20).name('Camera Far');
+  .name('Camera Near')
+  .onChange((value) => {
+    spotLight.shadow.camera.near = value;
+    spotLight.shadow.camera.updateProjectionMatrix();
+    spotLightCameraHelper.update();
+  });
+spotShadowFolder
+  .add(spotLight.shadow.camera, 'far', 1, 20)
+  .name('Camera Far')
+  .onChange((value) => {
+    spotLight.shadow.camera.far = value;
+    spotLight.shadow.camera.updateProjectionMatrix();
+    spotLightCameraHelper.update();
+  });
+
 spotShadowFolder.add(spotLightCameraHelper, 'visible').name('Show Helper');
 
 // Point Light Controls
@@ -313,16 +349,35 @@ const pointShadowFolder = pointFolder.addFolder('Shadow Settings').close();
 pointShadowFolder.add(pointLight, 'castShadow').name('Cast Shadows');
 pointShadowFolder
   .add(pointLight.shadow.mapSize, 'width', 256, 2048, 256)
-  .name('Map Width');
+  .name('Map Width')
+  .onChange(() => {
+    pointLight.shadow.map.dispose();
+    pointLight.shadow.map = null;
+  });
 pointShadowFolder
   .add(pointLight.shadow.mapSize, 'height', 256, 2048, 256)
-  .name('Map Height');
+  .name('Map Height')
+  .onChange(() => {
+    pointLight.shadow.map.dispose();
+    pointLight.shadow.map = null;
+  });
 pointShadowFolder
   .add(pointLight.shadow.camera, 'near', 0.1, 10)
-  .name('Camera Near');
+  .name('Camera Near')
+  .onChange((value) => {
+    pointLight.shadow.camera.near = value;
+    pointLight.shadow.camera.updateProjectionMatrix();
+    pointLightCameraHelper.update();
+  });
 pointShadowFolder
   .add(pointLight.shadow.camera, 'far', 1, 20)
-  .name('Camera Far');
+  .name('Camera Far')
+  .onChange((value) => {
+    pointLight.shadow.camera.far = value;
+    pointLight.shadow.camera.updateProjectionMatrix();
+    pointLightCameraHelper.update();
+  });
+
 pointShadowFolder.add(pointLightCameraHelper, 'visible').name('Show Helper');
 
 // Simple Shadow Controls
