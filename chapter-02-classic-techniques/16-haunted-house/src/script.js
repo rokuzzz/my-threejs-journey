@@ -9,6 +9,7 @@ import GUI from 'lil-gui';
  */
 // Debug
 const gui = new GUI();
+gui.hide();
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -180,19 +181,19 @@ const floor = new THREE.Mesh(
 floor.rotation.x = -Math.PI * 0.5;
 scene.add(floor);
 
-gui
-  .add(floor.material, 'displacementScale')
-  .min(0)
-  .max(1)
-  .step(0.001)
-  .name('FloorDisplacementScale');
+// gui
+//   .add(floor.material, 'displacementScale')
+//   .min(0)
+//   .max(1)
+//   .step(0.001)
+//   .name('FloorDisplacementScale');
 
-gui
-  .add(floor.material, 'displacementBias')
-  .min(-1)
-  .max(1)
-  .step(0.001)
-  .name('FloorDisplacementBias');
+// gui
+//   .add(floor.material, 'displacementBias')
+//   .min(-1)
+//   .max(1)
+//   .step(0.001)
+//   .name('FloorDisplacementBias');
 
 // House container
 const house = new THREE.Group();
