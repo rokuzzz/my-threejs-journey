@@ -37,20 +37,46 @@ const floorDisplacementTexture = textureLoader.load(
 
 floorColorTexture.colorSpace = THREE.SRGBColorSpace;
 
-floorColorTexture.repeat.set = (8, 8);
-floorARMTexture.repeat.set = (8, 8);
-floorNormalTexture.repeat.set = (8, 8);
-floorDisplacementTexture.repeat.set = (8, 8);
+floorColorTexture.repeat.set(5, 5);
+floorARMTexture.repeat.set(5, 5);
+floorNormalTexture.repeat.set(5, 5);
+floorDisplacementTexture.repeat.set(5, 5);
 
 floorColorTexture.wrapS = THREE.RepeatWrapping;
-floorARMTexture.wrapS = THREE.RepeatWrapping;
-floorNormalTexture.wrapS = THREE.RepeatWrapping;
-floorDisplacementTexture.wrapS = THREE.RepeatWrapping;
-
 floorColorTexture.wrapT = THREE.RepeatWrapping;
+floorARMTexture.wrapS = THREE.RepeatWrapping;
 floorARMTexture.wrapT = THREE.RepeatWrapping;
+floorNormalTexture.wrapS = THREE.RepeatWrapping;
 floorNormalTexture.wrapT = THREE.RepeatWrapping;
+floorDisplacementTexture.wrapS = THREE.RepeatWrapping;
 floorDisplacementTexture.wrapT = THREE.RepeatWrapping;
+
+// Wall
+const wallColorTexture = textureLoader.load(
+  './wall/wooden_rough_planks_1k/wooden_rough_planks_diff_1k.jpg'
+);
+const wallARMTexture = textureLoader.load(
+  './wall/wooden_rough_planks_1k/wooden_rough_planks_arm_1k.jpg'
+);
+const wallNormalTexture = textureLoader.load(
+  './wall/wooden_rough_planks_1k/wooden_rough_planks_nor_gl_1k.jpg'
+);
+const wallDisplacementTexture = textureLoader.load(
+  './wall/wooden_rough_planks_1k/wooden_rough_planks_disp_1k.jpg'
+);
+
+wallColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+wallColorTexture.repeat.set(2, 1.25);
+wallARMTexture.repeat.set(2, 1.25);
+wallNormalTexture.repeat.set(2, 1.25);
+
+wallColorTexture.wrapS = THREE.RepeatWrapping;
+wallColorTexture.wrapT = THREE.RepeatWrapping;
+wallARMTexture.wrapS = THREE.RepeatWrapping;
+wallARMTexture.wrapT = THREE.RepeatWrapping;
+wallNormalTexture.wrapS = THREE.RepeatWrapping;
+wallNormalTexture.wrapT = THREE.RepeatWrapping;
 
 /**
  * House
@@ -68,7 +94,7 @@ const floor = new THREE.Mesh(
     normalMap: floorNormalTexture,
     displacementMap: floorDisplacementTexture,
     displacementScale: 0.4,
-    displacementBias: -0.05,
+    displacementBias: -0.09,
   })
 );
 floor.rotation.x = -Math.PI * 0.5;
@@ -94,8 +120,14 @@ scene.add(house);
 
 // Walls
 const walls = new THREE.Mesh(
-  new THREE.BoxGeometry(4, 2.5, 4),
-  new THREE.MeshStandardMaterial()
+  new THREE.BoxGeometry(4, 2.5, 4, 100, 100, 100),
+  new THREE.MeshStandardMaterial({
+    map: wallColorTexture,
+    aoMap: wallARMTexture,
+    roughnessMap: wallARMTexture,
+    metalnessMap: wallARMTexture,
+    normalMap: wallNormalTexture,
+  })
 );
 walls.position.y = 2.5 / 2;
 house.add(walls);
