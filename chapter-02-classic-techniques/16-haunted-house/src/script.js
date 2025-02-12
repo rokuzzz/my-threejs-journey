@@ -61,9 +61,6 @@ const wallARMTexture = textureLoader.load(
 const wallNormalTexture = textureLoader.load(
   './wall/wooden_rough_planks_1k/wooden_rough_planks_nor_gl_1k.jpg'
 );
-const wallDisplacementTexture = textureLoader.load(
-  './wall/wooden_rough_planks_1k/wooden_rough_planks_disp_1k.jpg'
-);
 
 wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 
@@ -77,6 +74,75 @@ wallARMTexture.wrapS = THREE.RepeatWrapping;
 wallARMTexture.wrapT = THREE.RepeatWrapping;
 wallNormalTexture.wrapS = THREE.RepeatWrapping;
 wallNormalTexture.wrapT = THREE.RepeatWrapping;
+
+// Roof
+const roofColorTexture = textureLoader.load(
+  './roof/ceramic_roof_01_1k/ceramic_roof_01_diff_1k.jpg'
+);
+const roofARMTexture = textureLoader.load(
+  './roof/ceramic_roof_01_1k/ceramic_roof_01_arm_1k.jpg'
+);
+const roofNormalTexture = textureLoader.load(
+  './roof/ceramic_roof_01_1k/ceramic_roof_01_nor_gl_1k.jpg'
+);
+
+// Alternative
+// const roofColorTexture = textureLoader.load(
+//   './roof/thatch_roof_angled_1k/thatch_roof_angled_diff_1k.jpg'
+// );
+// const roofARMTexture = textureLoader.load(
+//   './roof/thatch_roof_angled_1k/thatch_roof_angled_arm_1k.jpg'
+// );
+// const roofNormalTexture = textureLoader.load(
+//   './roof/thatch_roof_angled_1k/thatch_roof_angled_nor_gl_1k.jpg'
+// );
+
+roofColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+roofColorTexture.repeat.set(4, 1);
+roofARMTexture.repeat.set(4, 1);
+roofNormalTexture.repeat.set(4, 1);
+
+roofColorTexture.wrapS = THREE.RepeatWrapping;
+roofARMTexture.wrapS = THREE.RepeatWrapping;
+roofNormalTexture.wrapS = THREE.RepeatWrapping;
+
+// Bushes
+const bushColorTexture = textureLoader.load(
+  './bush/forest_leaves_03_1k/forest_leaves_03_diff_1k.jpg'
+);
+const bushARMTexture = textureLoader.load(
+  './bush/forest_leaves_03_1k/forest_leaves_03_arm_1k.jpg'
+);
+const bushNormalTexture = textureLoader.load(
+  './bush/forest_leaves_03_1k/forest_leaves_03_nor_gl_1k.jpg'
+);
+
+bushColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+bushColorTexture.repeat.set(2, 1);
+bushARMTexture.repeat.set(2, 1);
+bushNormalTexture.repeat.set(2, 1);
+
+bushColorTexture.wrapS = THREE.RepeatWrapping;
+bushColorTexture.wrapT = THREE.RepeatWrapping;
+bushARMTexture.wrapS = THREE.RepeatWrapping;
+bushARMTexture.wrapT = THREE.RepeatWrapping;
+bushNormalTexture.wrapS = THREE.RepeatWrapping;
+bushNormalTexture.wrapT = THREE.RepeatWrapping;
+
+// Graves
+const graveColorTexture = textureLoader.load(
+  './grave/cracked_concrete_wall_1k/cracked_concrete_wall_diff_1k.jpg'
+);
+const graveARMTexture = textureLoader.load(
+  './grave/cracked_concrete_wall_1k/cracked_concrete_wall_arm_1k.jpg'
+);
+const graveNormalTexture = textureLoader.load(
+  './grave/cracked_concrete_wall_1k/cracked_concrete_wall_nor_gl_1k.jpg'
+);
+
+graveColorTexture.colorSpace = THREE.SRGBColorSpace;
 
 /**
  * House
@@ -135,7 +201,13 @@ house.add(walls);
 // Roof
 const roof = new THREE.Mesh(
   new THREE.ConeGeometry(3.5, 1.5, 4),
-  new THREE.MeshStandardMaterial()
+  new THREE.MeshStandardMaterial({
+    map: roofColorTexture,
+    aoMap: roofARMTexture,
+    roughnessMap: roofARMTexture,
+    metalnessMap: roofARMTexture,
+    normalMap: roofNormalTexture,
+  })
 );
 roof.position.y += 2.5 + 0.75;
 roof.rotation.y = Math.PI * 0.25;
@@ -154,29 +226,47 @@ house.add(door);
 
 // Bushes
 const bushGeometry = new THREE.SphereGeometry(1, 16, 16);
-const bushMaterial = new THREE.MeshStandardMaterial();
+const bushMaterial = new THREE.MeshStandardMaterial({
+  color: '#ccffcc',
+  map: bushColorTexture,
+  aoMap: bushARMTexture,
+  roughnessMap: bushARMTexture,
+  metalnessMap: bushARMTexture,
+  normalMap: bushNormalTexture,
+});
 
 const bush1 = new THREE.Mesh(bushGeometry, bushMaterial);
 bush1.scale.setScalar(0.5);
 bush1.position.set(0.8, 0.2, 2.2);
+bush1.rotation.x = -0.75;
 
 const bush2 = new THREE.Mesh(bushGeometry, bushMaterial);
 bush2.scale.setScalar(0.25);
 bush2.position.set(1.4, 0.1, 2.1);
+bush2.rotation.x = -0.75;
 
 const bush3 = new THREE.Mesh(bushGeometry, bushMaterial);
 bush3.scale.setScalar(0.4);
 bush3.position.set(-0.8, 0.1, 2.2);
+bush3.rotation.x = -0.75;
 
 const bush4 = new THREE.Mesh(bushGeometry, bushMaterial);
 bush4.scale.setScalar(0.15);
 bush4.position.set(-1, 0.05, 2.6);
+bush4.rotation.x = -0.75;
 
 house.add(bush1, bush2, bush3, bush4);
 
 // Graves
 const gravesGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2);
-const gravesMaterial = new THREE.MeshStandardMaterial();
+const gravesMaterial = new THREE.MeshStandardMaterial({
+  color: '#3f4444',
+  map: graveColorTexture,
+  aoMap: graveARMTexture,
+  roughnessMap: graveARMTexture,
+  metalnessMap: graveARMTexture,
+  normalMap: graveNormalTexture,
+});
 
 const graves = new THREE.Group();
 scene.add(graves);
