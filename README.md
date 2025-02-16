@@ -20,6 +20,7 @@ Collection of deployed projects from this course:
 - Chapter 2 (Classic Techniques) 
   - Lights [Demo](https://threejs-lights-playground.netlify.app/)
   - Shadows [Demo](https://threejs-shadows-playground.netlify.app/)
+  - Haunted House [Demo](https://threejs-haunted-house-roman-kuzero.netlify.app/)
 
 ## Technologies Used
 - Three.js
