@@ -380,6 +380,10 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
+// Restrict vertical rotation
+controls.minPolarAngle = 0; // How high you can orbit (0 = directly above)
+controls.maxPolarAngle = Math.PI * 0.49; // How low you can orbit (π/2 = ground level)
+
 /**
  * Renderer
  */
