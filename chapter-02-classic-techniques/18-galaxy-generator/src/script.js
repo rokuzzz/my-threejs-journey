@@ -18,19 +18,67 @@ const scene = new THREE.Scene();
  * Galaxy
  */
 const parameters = {};
-parameters.count = 100000;
-parameters.size = 0.01;
-parameters.radius = 5;
-parameters.branches = 3;
-parameters.spin = 1;
-parameters.randomness = 0.2;
-parameters.randomnessPower = 3;
-parameters.insideColor = '#ff6030';
-parameters.outsideColor = '#1b3984';
+parameters.count = 200000; // Number of particles
+parameters.size = 0.005; // Size of each particle
+parameters.radius = 3; // How big the galaxy is
+parameters.branches = 5; // Number of spiral arms
+parameters.spin = 1.5; // How much the arms twist
+parameters.randomness = 0.5; // How scattered the particles are
+parameters.randomnessPower = 3; // How the randomness increases with radius
+parameters.insideColor = '#ff6030'; // Color at galaxy center
+parameters.outsideColor = '#1c3a6d'; // Color at galaxy edge
 
+// Background stars parameters
+parameters.starsCount = 15000;
+parameters.starsSize = 0.004;
+parameters.starsRadius = 15;
+
+// Galaxy variables
 let geometry = null;
 let material = null;
 let points = null;
+
+// Background stars variables
+let starsGeometry = null;
+let starsMaterial = null;
+let starsPoints = null;
+
+// Generate background stars
+const generateStars = () => {
+  if (starsPoints) {
+    starsGeometry.dispose();
+    starsMaterial.dispose();
+    scene.remove(starsPoints);
+  }
+
+  starsGeometry = new THREE.BufferGeometry();
+  const starsPositions = new Float32Array(parameters.starsCount * 3);
+
+  for (let i = 0; i < parameters.starsCount; i++) {
+    const i3 = i * 3;
+    const radius = Math.random() * parameters.starsRadius;
+
+    starsPositions[i3] = (Math.random() - 0.5) * radius;
+    starsPositions[i3 + 1] = (Math.random() - 0.5) * radius;
+    starsPositions[i3 + 2] = (Math.random() - 0.5) * radius;
+  }
+
+  starsGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(starsPositions, 3)
+  );
+
+  starsMaterial = new THREE.PointsMaterial({
+    size: parameters.starsSize,
+    sizeAttenuation: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    color: 0xffffff,
+  });
+
+  starsPoints = new THREE.Points(starsGeometry, starsMaterial);
+  scene.add(starsPoints);
+};
 
 const generateGalaxy = () => {
   /**
@@ -114,6 +162,7 @@ const generateGalaxy = () => {
 };
 
 generateGalaxy();
+generateStars();
 
 gui
   .add(parameters, 'count')
@@ -228,16 +277,50 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  */
 const clock = new THREE.Clock();
 
+let isUserInteracting = false;
+
+// Store original camera position
+let cameraStartPosition = {
+  x: camera.position.x,
+  y: camera.position.y,
+  z: camera.position.z,
+};
+
+controls.addEventListener('start', () => {
+  isUserInteracting = true;
+});
+
+controls.addEventListener('end', () => {
+  isUserInteracting = false;
+  // Update the start position to wherever the user left the camera
+  cameraStartPosition = {
+    x: camera.position.x,
+    y: camera.position.y,
+    z: camera.position.z,
+  };
+});
+
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  // Update controls
+  // Update galaxy rotation
+  points.rotation.y = elapsedTime * 0.05;
+
+  if (!isUserInteracting) {
+    const radius = 0.3;
+    const speed = 0.3;
+
+    camera.position.x =
+      cameraStartPosition.x + Math.sin(elapsedTime * speed) * radius;
+    camera.position.z =
+      cameraStartPosition.z + Math.cos(elapsedTime * speed) * radius;
+    camera.position.y =
+      cameraStartPosition.y +
+      Math.sin(elapsedTime * speed * 0.5) * radius * 0.5;
+  }
+
   controls.update();
-
-  // Render
   renderer.render(scene, camera);
-
-  // Call tick again on the next frame
   window.requestAnimationFrame(tick);
 };
 
