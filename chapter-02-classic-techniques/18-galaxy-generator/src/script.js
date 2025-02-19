@@ -25,8 +25,8 @@ parameters.branches = 5; // Number of spiral arms
 parameters.spin = 1.5; // How much the arms twist
 parameters.randomness = 0.5; // How scattered the particles are
 parameters.randomnessPower = 3; // How the randomness increases with radius
-parameters.insideColor = '#ff6030'; // Color at galaxy center
-parameters.outsideColor = '#1c3a6d'; // Color at galaxy edge
+parameters.insideColor = '#ff4500'; // Color at galaxy center
+parameters.outsideColor = '#0066ff'; // Color at galaxy edge
 
 // Background stars parameters
 parameters.starsCount = 5000;
@@ -174,7 +174,7 @@ gui
 gui
   .add(parameters, 'size')
   .min(0.001)
-  .max(0.1)
+  .max(0.05)
   .step(0.001)
   .name('size')
   .onFinishChange(generateGalaxy);
@@ -204,14 +204,14 @@ gui
   .min(0)
   .max(2)
   .step(0.001)
-  .name('randomness')
+  .name('spread')
   .onFinishChange(generateGalaxy);
 gui
   .add(parameters, 'randomnessPower')
   .min(1)
   .max(10)
   .step(0.001)
-  .name('randomnessPower')
+  .name('spreadFocus')
   .onFinishChange(generateGalaxy);
 gui
   .addColor(parameters, 'insideColor')
