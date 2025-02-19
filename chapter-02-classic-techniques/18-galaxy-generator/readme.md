@@ -2,7 +2,7 @@
 
 An interactive 3D spiral galaxy visualization with customizable parameters and dynamic star field background.
 
-🔗 [Live Demo](https://galaxy-generator-threejs.netlify.app/)
+🔗 [Live Demo](https://spiral-galaxy-gen.netlify.app/)
 
 ## Features
 - Custom-shaped spiral galaxy created with particles
