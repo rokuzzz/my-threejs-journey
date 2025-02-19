@@ -21,6 +21,7 @@ Collection of deployed projects from this course:
   - Lights [Demo](https://threejs-lights-playground.netlify.app/)
   - Shadows [Demo](https://threejs-shadows-playground.netlify.app/)
   - Haunted House [Demo](https://threejs-haunted-house-roman-kuzero.netlify.app/)
+  - Galaxy Generator [Demo](https://spiral-galaxy-gen.netlify.app/)
 
 ## Technologies Used
 - Three.js
