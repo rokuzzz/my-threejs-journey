@@ -29,9 +29,9 @@ parameters.insideColor = '#ff6030'; // Color at galaxy center
 parameters.outsideColor = '#1c3a6d'; // Color at galaxy edge
 
 // Background stars parameters
-parameters.starsCount = 15000;
+parameters.starsCount = 5000;
 parameters.starsSize = 0.004;
-parameters.starsRadius = 15;
+parameters.starsRadius = 70;
 
 // Galaxy variables
 let geometry = null;
@@ -262,6 +262,11 @@ scene.add(camera);
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.minDistance = 1;
+controls.maxDistance = 20;
+controls.enableZoom = true;
+controls.zoomSpeed = 0.7;
 
 /**
  * Renderer
@@ -277,47 +282,15 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  */
 const clock = new THREE.Clock();
 
-let isUserInteracting = false;
-
-// Store original camera position
-let cameraStartPosition = {
-  x: camera.position.x,
-  y: camera.position.y,
-  z: camera.position.z,
-};
-
-controls.addEventListener('start', () => {
-  isUserInteracting = true;
-});
-
-controls.addEventListener('end', () => {
-  isUserInteracting = false;
-  // Update the start position to wherever the user left the camera
-  cameraStartPosition = {
-    x: camera.position.x,
-    y: camera.position.y,
-    z: camera.position.z,
-  };
-});
-
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
   // Update galaxy rotation
   points.rotation.y = elapsedTime * 0.05;
 
-  if (!isUserInteracting) {
-    const radius = 0.3;
-    const speed = 0.3;
-
-    camera.position.x =
-      cameraStartPosition.x + Math.sin(elapsedTime * speed) * radius;
-    camera.position.z =
-      cameraStartPosition.z + Math.cos(elapsedTime * speed) * radius;
-    camera.position.y =
-      cameraStartPosition.y +
-      Math.sin(elapsedTime * speed * 0.5) * radius * 0.5;
-  }
+  // Update stars rotation
+  starsPoints.rotation.y = elapsedTime * 0.02;
+  starsPoints.rotation.x = elapsedTime * 0.01;
 
   controls.update();
   renderer.render(scene, camera);
