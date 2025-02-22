@@ -13,6 +13,7 @@ body
 html 
 {
     background: #1e1a20;
+    scroll-snap-type: y mandatory;
 }
 
 .webgl
@@ -36,6 +37,8 @@ html
     font-size: 7vmin;
     padding-left: 10%;
     padding-right: 10%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 section:nth-child(odd)
