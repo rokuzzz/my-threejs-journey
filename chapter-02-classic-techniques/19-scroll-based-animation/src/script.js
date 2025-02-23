@@ -8,13 +8,27 @@ import gsap from 'gsap';
 const gui = new GUI();
 
 const parameters = {
-  materialColor: '#ffeded',
+  themeColor: '#ffeded',
+  rotationSpeed: 0.1,
+  particleSize: 0.08,
+  particlesCount: 500,
 };
 
-gui.addColor(parameters, 'materialColor').onChange(() => {
-  material.color.set(parameters.materialColor);
-  particlesMaterial.color.set(parameters.materialColor);
-});
+gui
+  .addColor(parameters, 'themeColor')
+  .onChange(() => {
+    material.color.set(parameters.themeColor);
+    particlesMaterial.color.set(parameters.themeColor);
+  })
+  .name('Theme Color');
+
+gui.add(parameters, 'rotationSpeed', 0, 0.5, 0.01).name('Rotation Speed');
+gui
+  .add(parameters, 'particleSize', 0.01, 0.2, 0.01)
+  .onChange(() => {
+    particlesMaterial.size = parameters.particleSize;
+  })
+  .name('Particle Size');
 
 /**
  * Base
@@ -204,8 +218,8 @@ const tick = () => {
 
   // Animate meshes
   for (const mesh of sectionMeshes) {
-    mesh.rotation.x += deltaTime * 0.1;
-    mesh.rotation.y += deltaTime * 0.12;
+    mesh.rotation.x += deltaTime * parameters.rotationSpeed;
+    mesh.rotation.y += deltaTime * (parameters.rotationSpeed * 1.2);
   }
 
   // Animate camera
