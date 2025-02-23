@@ -1,47 +1,146 @@
-*
-{
+* {
     margin: 0;
     padding: 0;
 }
 
-/* html,
-body
-{
-    overflow: hidden;
-} */
-
-html 
-{
+html {
     background: #1e1a20;
     scroll-snap-type: y mandatory;
+    font-size: 16px;
 }
 
-.webgl
-{
+.webgl {
     position: fixed;
     top: 0;
     left: 0;
     outline: none;
 }
 
-
-.section
-{
+.section {
     display: flex;
     align-items: center;
     height: 100vh;
     position: relative;
     font-family: 'Cabin', sans-serif;
     color: #ffeded;
-    text-transform: uppercase;
-    font-size: 7vmin;
     padding-left: 10%;
     padding-right: 10%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
 }
 
-section:nth-child(odd)
-{
+.section-content {
+    max-width: 512px;
+}
+
+.section-content h1,
+.section-content h2 {
+    text-transform: uppercase;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-content p {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    opacity: 0.8;
+}
+
+.experience {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.job {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.company {
+    font-size: 1.5rem;
+    font-weight: bold;
+    opacity: 0.9;
+    margin-right: 1.5rem;
+    margin-bottom: 0.1rem;
+}
+
+.date {
+    font-size: 0.9rem;
+    opacity: 0.6;
+}
+
+.position {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.location {
+    font-size: 0.9rem;
+    opacity: 0.6;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-link {
+    text-decoration: none;
+    color: #ffeded;
+    transition: opacity 0.3s ease;
+}
+
+.contact-link:hover {
+    opacity: 1;
+}
+
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.contact-link:hover .contact-row {
+    opacity: 0.9;
+}
+
+.contact-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.contact-value {
+    font-size: 1.25rem;
+}
+
+section:nth-child(odd) {
     justify-content: flex-end;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+
+    .section-content h1,
+    .section-content h2 {
+        font-size: 2.5rem;
+    }
+
+    .job-header {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
 }
