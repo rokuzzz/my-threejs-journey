@@ -22,8 +22,11 @@ Collection of deployed projects from this course:
   - Shadows [Demo](https://threejs-shadows-playground.netlify.app/)
   - Haunted House [Demo](https://threejs-haunted-house-roman-kuzero.netlify.app/)
   - Galaxy Generator [Demo](https://spiral-galaxy-gen.netlify.app/)
+  - My Resume (v1) [Demo](https://roman-kuzero-resume-v1.netlify.app/)
 
 ## Technologies Used
 - Three.js
 - JavaScript
 - WebGL
+- lil-gui
+- GSAP
