@@ -1,0 +1,4 @@
+[build]
+  base = "chapter-02-classic-techniques/19-scroll-based-animation"
+  publish = "dist"
+  command = "npm run build"
