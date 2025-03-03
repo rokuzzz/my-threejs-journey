@@ -29,11 +29,13 @@ debugObject.reset = () => {
   // Remove body
   for (const object of objectsToUpdate) {
     object.body.removeEventListener('collide', playHitSound);
-    world.remove(object.body);
+    world.removeBody(object.body);
 
     // Remove mesh
     scene.remove(object.mesh);
   }
+
+  objectsToUpdate.splice(0, objectsToUpdate.length);
 };
 
 debugObject.removeHeight = -50;
