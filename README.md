@@ -23,6 +23,8 @@ Collection of deployed projects from this course:
   - Haunted House [Demo](https://threejs-haunted-house-roman-kuzero.netlify.app/)
   - Galaxy Generator [Demo](https://spiral-galaxy-gen.netlify.app/)
   - My Resume (v1) [Demo](https://roman-kuzero-resume-v1.netlify.app/)
+- Chapter 3 (Advanced Techniques)
+  - Physics [Demo](https://threejs-physics-playground.netlify.app/)
 
 ## Technologies Used
 - Three.js
