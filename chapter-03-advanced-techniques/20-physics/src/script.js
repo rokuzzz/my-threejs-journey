@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-import CANNON from 'cannon';
+import * as CANNON from 'cannon-es';
 
 /**
  * Debug
@@ -35,6 +35,14 @@ debugObject.reset = () => {
     scene.remove(object.mesh);
   }
 };
+
+debugObject.removeHeight = -50;
+gui
+  .add(debugObject, 'removeHeight')
+  .min(-100)
+  .max(-10)
+  .step(1)
+  .name('Remove Height');
 
 gui.add(debugObject, 'createSphere');
 gui.add(debugObject, 'createBox');
@@ -110,11 +118,19 @@ world.addContactMaterial(defaultContactMaterial);
 world.defaultContactMaterial = defaultContactMaterial;
 
 // Floor
-const floorShape = new CANNON.Plane();
-const floorBody = new CANNON.Body();
-floorBody.mass = 0;
+const floorSize = 10;
+const floorHeight = 0.2;
+
+const floorShape = new CANNON.Box(
+  new CANNON.Vec3(floorSize / 2, floorHeight / 2, floorSize / 2)
+);
+const floorBody = new CANNON.Body({
+  mass: 0,
+  material: defaultMaterial,
+});
 floorBody.addShape(floorShape);
-floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI * 0.5);
+// Position the floor so its top surface is at y=0
+floorBody.position.set(0, -floorHeight / 2, 0);
 world.addBody(floorBody);
 
 /**
@@ -299,9 +315,27 @@ const tick = () => {
   // Update physics world
   world.step(fixedTimeStep, deltaTime, maxSubSteps);
 
-  for (const object of objectsToUpdate) {
+  // Filter out objects that are too low
+  // Start from the end of the array to avoid index shifting issues
+  for (let i = objectsToUpdate.length - 1; i >= 0; i--) {
+    const object = objectsToUpdate[i];
+
+    // Update position and rotation
     object.mesh.position.copy(object.body.position);
     object.mesh.quaternion.copy(object.body.quaternion);
+
+    // Remove objects that have fallen too far
+    if (object.body.position.y < debugObject.removeHeight) {
+      // Remove body
+      object.body.removeEventListener('collide', playHitSound);
+      world.removeBody(object.body);
+
+      // Remove mesh
+      scene.remove(object.mesh);
+
+      // Remove from our update array
+      objectsToUpdate.splice(i, 1);
+    }
   }
 
   // Update controls
